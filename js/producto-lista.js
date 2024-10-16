@@ -20,19 +20,19 @@ function renderProducts(products) {
 
   products.forEach(product => {
       const productCard = `
-          <div class="card" data-id="${product.id}">
-              <img class="image" src="${product.url}" alt="${product.name}"/>
-              <div class="card-container--info">
-                  <p class="name">${product.name}</p>
-                  <div class="card-container--value">
-                      <p class="price">${product.price.toFixed(2)}</p>
-                      <button class="btn__eliminar__producto" type="button">
-                          <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
-                      </button>
-                  </div>
-              </div>
-          </div>
-      `;
+            <div class="card" data-id="${product.id}"> <!-- Asegúrate de que cada tarjeta tenga un data-id -->
+                <img class="image" src="${product.url}" alt="${product.name}"/>
+                <div class="card-container--info">
+                    <p class="name">${product.name}</p>
+                    <div class="card-container--value">
+                        <p class="price">$ ${product.price.toFixed(2)}</p>
+                        <button class="btn__eliminar__producto" type="button" data-id="${product.eliminate}"> <!-- Asignamos el data-id correcto aquí -->
+                            <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
       productsContainer.innerHTML += productCard;
   });
 
@@ -44,11 +44,11 @@ function renderProducts(products) {
 function attachDeleteEventListeners() {
   document.querySelectorAll('.btn__eliminar__producto').forEach(button => {
       button.addEventListener('click', async () => {
-          const productId = button.getAttribute('data-id');
-          console.log('Intentando eliminar el producto con ID:', productId); // Log de depuración
+          const productId = button.getAttribute('data-id'); // Ahora esto obtendrá el id del botón
+          console.log('Intentando eliminar el producto con ID:', productId); 
           try {
               await eliminarProducto(productId);
-              console.log('Producto eliminado correctamente'); // Verificación de éxito
+              console.log('Producto eliminado correctamente'); 
               alert('Producto eliminado exitosamente.');
               await updateProductList();
           } catch (error) {
@@ -58,6 +58,7 @@ function attachDeleteEventListeners() {
       });
   });
 }
+
 
 // Dentro del manejo del envío del formulario
 productForm.addEventListener('submit', async event => {
@@ -81,7 +82,7 @@ productForm.addEventListener('submit', async event => {
       productForm.reset();
       await updateProductList();
   } catch (error) {
-      console.error('Error al agregar producto:', error);
+      console.log('Error al agregar producto:', error);
       alert('Ocurrió un error al agregar el producto.');
   }
 });

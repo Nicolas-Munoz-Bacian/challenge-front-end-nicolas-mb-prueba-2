@@ -1,73 +1,56 @@
 // API functions
-async function listarProductos() {
+export async function añadirProductos() {
     try {
-        const response = await fetch("http://localhost:3000/products");
-        if (!response.ok) throw new Error('Error en la red');
+        const response = await fetch('http://localhost:3000/products');
+        if (!response.ok) throw new Error('Error al obtener productos');
         return await response.json();
     } catch (error) {
-        console.error('Error al listar productos:', error);
-        return [];
+        console.error('Error en la solicitud GET:', error);
+        return []; // Retorna un arreglo vacío en caso de error
     }
 }
 
-// Eliminar productos
-async function enviarProducto(producto) {
+export async function enviarProducto(producto) {
     try {
-        const response = await fetch("http://localhost:3000/products", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+        const response = await fetch('http://localhost:3000/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(producto)
         });
 
-        if (!response.ok) {
-            throw new Error('Error al enviar el producto');
-        }
+        if (!response.ok) throw new Error('Error al enviar el producto');
         return await response.json();
     } catch (error) {
-        console.error('Error en enviar producto:', error);
+        console.error('Error al enviar producto:', error);
+        throw error; // Lanza el error para que se maneje en otro lugar
     }
 }
 
-// Eliminar productos
-async function eliminarProducto(id) {
+export async function eliminarProducto(id) {
     try {
         const response = await fetch(`http://localhost:3000/products/${id}`, {
-            method: "DELETE"
+            method: 'DELETE'
         });
 
-        if (!response.ok) {
-            throw new Error('Error al eliminar el producto');
-        }
-        
-        // Función para eliminar un producto
-        async function handleDelete(event) {
-        try {
-            // Obtener el ID del producto a eliminar
-            const productId = parseInt(event.target.closest('.card').dataset.id);
-        
-            // Eliminar el producto de la API
-            await eliminarProducto(productId);
-        
-            // Actualizar la lista de productos
-            updateProductList();
-          } catch (error) {
-            console.error('Error al eliminar el producto:', error);
-          }
-        }
+        if (!response.ok) throw new Error('Error al eliminar el producto');
+    } catch (error) {
+        console.error('Error al eliminar producto:', error);
+        throw error; // Lanza el error para que se maneje en otro lugar
     }
 }
+  
 
 // Función para actualizar la lista de productos
 async function updateProductList() {
-  try {
-    // Obtener los productos actualizados de la API
-    const updatedProducts = await listarProductos();
+    try {
+            // Obtener los productos actualizados de la API
+        const updatedProducts = await listarProductos();
 
-    // Renderizar la lista de productos actualizada
-    renderProducts(updatedProducts);
-  } catch (error) {
-    console.error('Error al actualizar la lista de productos:', error);
-  }
+            // Renderizar la lista de productos actualizada
+        renderProducts(updatedProducts);
+    } catch (error) {
+        console.error('Error al actualizar la lista de productos:', error);
+    }
 }
 
 // Renderizar productos
@@ -77,14 +60,14 @@ function renderProducts(products) {
 
     products.forEach(product => {
         const productCard = `
-            <div class="card" data-id="${product.id}">
+            <div class="card" data-id="${product.id}"> <!-- Asegúrate de que cada tarjeta tenga un data-id -->
                 <img class="image" src="${product.url}" alt="${product.name}"/>
                 <div class="card-container--info">
                     <p class="name">${product.name}</p>
                     <div class="card-container--value">
-                        <p class="price">${product.price}</p>
-                        <button class="btn__eliminar__producto" type="button">
-                          <img src="./assets/bote-de-basura.png" alt="Eliminar producto">
+                        <p class="price">$ ${product.price.toFixed(2)}</p>
+                        <button class="btn__eliminar__producto" type="button" data-id="${product.eliminate}"> <!-- Asignamos el data-id correcto aquí -->
+                            <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
                         </button>
                     </div>
                 </div>
@@ -108,6 +91,3 @@ async function init() {
     console.error('Error al inicializar la lista de productos:', error);
   }
 }
-
-// Ejecutar la inicialización
-init();

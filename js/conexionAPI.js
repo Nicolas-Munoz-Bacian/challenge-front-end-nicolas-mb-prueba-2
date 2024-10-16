@@ -27,7 +27,7 @@ export async function enviarProducto(producto) {
 
         return await response.json();
     } catch (error) {
-        console.error('Error al enviar producto:', error);
+        console.log('Error al enviar producto:', error);
         throw error;
     }
 }
