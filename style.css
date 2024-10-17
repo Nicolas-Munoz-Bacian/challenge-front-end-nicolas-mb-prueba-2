@@ -85,7 +85,7 @@ body {
     overflow-y: auto; /* Para habilitar el scroll vertical si hay muchos productos */
     max-height: 720px; /* Limitar la altura del contenedor */
     display: none;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
@@ -121,7 +121,6 @@ body {
 /*layout*/
 
 .card_list{
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -276,7 +275,7 @@ input {
 }
 
 .agregar_producto_titulo{
-    color: var(--color-primario);
+    color: var(--color-de-link);
     font-size: 1.5rem;
     font-family: Verdana, Tahoma, sans-serif;
 }
@@ -285,13 +284,11 @@ input {
 
 .add-product-form{
     box-sizing: border-box;
-
     position: absolute;
     left: 0%;
     right: 0%;
     top: 0%;
     bottom: 0%;
-    
     background: var(--color-primario);
     
 }
@@ -343,8 +340,9 @@ input {
 }
 
 .footer_text_contenido{
-    display: flex;
-    width: 50%;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
 }
 
 .derechos_de_autor_text{
@@ -353,11 +351,6 @@ input {
     font-size: 70%;
     color: var(--color-primario);
     font-family: var(--fuente-calibri);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin-left: 50%;
 }
 
 .presentación__logo__personal{
@@ -386,18 +379,30 @@ input {
 
 /* Móvil */
 @media (max-width: 767px) {
+    .container{
+        grid-template-columns: 1fr;
+        width: 50%;
+    }
     .products-container {
         display: grid;
         grid-template-columns: 1fr;
         gap: 10px;
+        width: 50%;
+    }
+    .card_list{
+        width: 80%;
+        height: auto;
+        align-items: center;
+        justify-content: center;
+        margin-left: 60px;
     }
     .card {
         height: auto;
-        width: 85%;
+        width: 60%;
         margin: 0 auto;
     }
     .card img {
-        max-width: 100%;
+        max-width: 80%;
         height: auto;
     }
     .card-container--value {

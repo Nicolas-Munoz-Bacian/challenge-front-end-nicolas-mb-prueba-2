@@ -55,18 +55,19 @@ async function updateProductList() {
 
 // Renderizar productos
 function renderProducts(products) {
-    const productsContainer = document.getElementById('products-container');
-    productsContainer.innerHTML = ''; // Limpiar contenido anterior
-
+    const productsContainer = document.getElementById('products-container'); 
+    productsContainer.innerHTML = ''; 
+  
     products.forEach(product => {
+        const priceWithCurrency = `$ ${product.price.toFixed(2)}`; // Formato con el signo de dólar
         const productCard = `
-            <div class="card" data-id="${product.id}"> <!-- Asegúrate de que cada tarjeta tenga un data-id -->
+            <div class="card" data-id="${product.id}">
                 <img class="image" src="${product.url}" alt="${product.name}"/>
                 <div class="card-container--info">
                     <p class="name">${product.name}</p>
                     <div class="card-container--value">
-                        <p class="price">$ ${product.price.toFixed(2)}</p>
-                        <button class="btn__eliminar__producto" type="button" data-id="${product.eliminate}"> <!-- Asignamos el data-id correcto aquí -->
+                        <p class="price">${priceWithCurrency}</p> <!-- Precio con signo de dólar -->
+                        <button class="btn__eliminar__producto" type="button" data-id="${product.id}">
                             <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
                         </button>
                     </div>
@@ -75,6 +76,7 @@ function renderProducts(products) {
         `;
         productsContainer.innerHTML += productCard;
     });
+
 
     // Añadir eventos a los botones de borrar después de renderizar
     document.querySelectorAll('.btn__eliminar__producto').forEach(button => {

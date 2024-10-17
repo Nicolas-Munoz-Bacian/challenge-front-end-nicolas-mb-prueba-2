@@ -15,30 +15,32 @@ async function updateProductList() {
 
 // Función para renderizar los productos en el DOM
 function renderProducts(products) {
-  const productsContainer = document.getElementById('products-container'); // Corregir selector
-  productsContainer.innerHTML = ''; // Limpia el contenido anterior
-
-  products.forEach(product => {
-      const productCard = `
-            <div class="card" data-id="${product.id}"> <!-- Asegúrate de que cada tarjeta tenga un data-id -->
+    const productsContainer = document.getElementById('products-container'); 
+    productsContainer.innerHTML = ''; 
+  
+    products.forEach(product => {
+        // Formatear el precio con el signo de dólar
+        const priceWithCurrency = `$ ${parseFloat(product.price).toFixed(2)}`; // Formato con el signo de dólar
+        const productCard = `
+            <div class="card" data-id="${product.id}">
                 <img class="image" src="${product.url}" alt="${product.name}"/>
                 <div class="card-container--info">
                     <p class="name">${product.name}</p>
                     <div class="card-container--value">
-                        <p class="price">$ ${product.price.toFixed(2)}</p>
-                        <button class="btn__eliminar__producto" type="button" data-id="${product.eliminate}"> <!-- Asignamos el data-id correcto aquí -->
+                        <p class="price">${priceWithCurrency}</p> <!-- Precio con signo de dólar -->
+                        <button class="btn__eliminar__producto" type="button" data-id="${product.id}">
                             <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
                         </button>
                     </div>
                 </div>
             </div>
         `;
-      productsContainer.innerHTML += productCard;
-  });
+        productsContainer.innerHTML += productCard;
+    });
 
-  // Añadir eventos a los botones de borrar después de renderizar
-  attachDeleteEventListeners();
+    attachDeleteEventListeners(); // Añadir eventos a los botones de borrar
 }
+
 
 // Función para manejar la eliminación de productos
 function attachDeleteEventListeners() {
