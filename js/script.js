@@ -1,5 +1,5 @@
-// Importar funciones desde la API
-import { enviarProducto, añadirProductos, eliminarProducto } from './conexionAPI.js';
+/// Importar funciones desde la API
+import { enviarProducto, listarProductos, eliminarProducto } from './conexionAPI.js';
 
 const productsContainer = document.getElementById('products-container');
 const productForm = document.getElementById('product-form');
@@ -25,11 +25,11 @@ productForm.addEventListener('submit', async event => {
     const price = document.querySelector("[data-price]").value.trim();
     const url = document.querySelector("[data-url]").value.trim();
 
-    // Validación del precio
-    const pricePattern = /^\d+(\.\d{1,2})?$/;
+    // Validación del precio: sólo números enteros o un decimal
+    const pricePattern = /^\d+(\.\d{1,2})?$/; // Patrón: uno o más dígitos, opcionalmente seguidos de un punto y uno o dos dígitos
 
-    if (!name || !price || !url || !pricePattern.test(price)) {
-        alert('Asegúrate de completar todos los campos correctamente.');
+    if (!name || !price || !url) {
+        alert('Por favor, completa todos los campos.');
         return;
     }
 
@@ -39,8 +39,6 @@ productForm.addEventListener('submit', async event => {
         return;
     }
 
-
-    //Funcion para AGREGAR producto
     const newProduct = { name, price: parseFloat(price), url };
 
     try {
@@ -55,27 +53,25 @@ productForm.addEventListener('submit', async event => {
     }
 });
 
-// Evento para limpiar el formulario
 clearFormButton.addEventListener('click', clearForm);
 
-// Función para limpiar el formulario
 function clearForm() {
     productForm.reset();
 }
 
 function renderProducts(products) {
+    const productsContainer = document.getElementById('products-container'); 
     productsContainer.innerHTML = ''; 
-
+  
     products.forEach(product => {
-        const priceWithCurrency = `$ ${parseFloat(product.price).toFixed(2)}`;
         const productCard = `
             <div class="card" data-id="${product.id}">
                 <img class="image" src="${product.url}" alt="${product.name}"/>
                 <div class="card-container--info">
                     <p class="name">${product.name}</p>
                     <div class="card-container--value">
-                        <p class="price">${priceWithCurrency}</p>
-                        <button class="btn__eliminar__producto" type="button" data-id="${product.id}">
+                        <p class="price">$ ${product.price.toFixed(2)}</p>
+                        <button class="btn__eliminar__producto" type="button" data-id="${product.id}"> <!-- Correctamente asignando el data-id -->
                             <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
                         </button>
                     </div>
@@ -85,22 +81,19 @@ function renderProducts(products) {
         productsContainer.innerHTML += productCard;
     });
 
-    attachDeleteEventListeners(); // Añadir eventos a los botones de borrar
+    attachDeleteEventListeners(); // Añade eventos a los botones de borrar
 }
 
-
-// Función para actualizar la lista de productos
 async function updateProductList() {
     try {
         const updatedProducts = await listarProductos();
         renderProducts(updatedProducts);
     } catch (error) {
         console.error('Error al actualizar la lista de productos:', error);
+        alert('Error al actualizar la lista de productos.');
     }
 }
 
-
-// Función para manejar la eliminación de productos
 function attachDeleteEventListeners() {
     document.querySelectorAll('.btn__eliminar__producto').forEach(button => {
         button.addEventListener('click', async () => {

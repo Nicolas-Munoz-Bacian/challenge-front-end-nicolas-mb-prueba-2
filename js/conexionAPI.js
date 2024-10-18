@@ -1,6 +1,6 @@
 // API functions
 
-export async function añadirProductos() {
+export async function listarProductos() {
     try {
         const response = await fetch('http://localhost:3000/products');
         if (!response.ok) {

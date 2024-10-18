@@ -432,7 +432,12 @@ input {
 
 /* Escritorio */
 @media (min-width: 991px) { /* Ajuste del breakpoint máximo */
+    .container{
+        width: 80%;
+    }
+
     .products-container {
+        width: 80%;
         display: grid;
         grid-template-columns: repeat(2, 1fr); /* Cambiar a dos columnas */
         gap: 20px; /* Espaciado entre columnas */
@@ -445,5 +450,10 @@ input {
     .card img {
         max-width: 100%;
         height: auto;
+    }
+    .card-container--value {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }

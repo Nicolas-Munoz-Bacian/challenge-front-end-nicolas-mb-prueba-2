@@ -4,7 +4,7 @@
 async function updateProductList() {
   try {
       // Obtener los productos actualizados de la API
-      const updatedProducts = await añadirProductos();
+      const updatedProducts = await listarProductos();
 
       // Renderizar la lista de productos actualizada
       renderProducts(updatedProducts);
@@ -27,7 +27,7 @@ function renderProducts(products) {
                 <div class="card-container--info">
                     <p class="name">${product.name}</p>
                     <div class="card-container--value">
-                        <p class="price">${priceWithCurrency}</p> <!-- Precio con signo de dólar -->
+                        <p class="price">${priceWithCurrency}</p>
                         <button class="btn__eliminar__producto" type="button" data-id="${product.id}">
                             <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
                         </button>

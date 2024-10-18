@@ -1,5 +1,5 @@
 // API functions
-export async function añadirProductos() {
+export async function listarProductos() {
     try {
         const response = await fetch('http://localhost:3000/products');
         if (!response.ok) throw new Error('Error al obtener productos');
@@ -66,7 +66,7 @@ function renderProducts(products) {
                 <div class="card-container--info">
                     <p class="name">${product.name}</p>
                     <div class="card-container--value">
-                        <p class="price">${priceWithCurrency}</p> <!-- Precio con signo de dólar -->
+                        <p class="price">${priceWithCurrency}</p>
                         <button class="btn__eliminar__producto" type="button" data-id="${product.id}">
                             <img src="./assets/bote-de-basura.png" alt="Eliminar producto"/>
                         </button>
@@ -82,14 +82,4 @@ function renderProducts(products) {
     document.querySelectorAll('.btn__eliminar__producto').forEach(button => {
         button.addEventListener('click', handleDelete);
     });
-}
-
-// Inicializar la lista de productos
-async function init() {
-  try {
-    const products = await listarProductos();
-    renderProducts(products);
-  } catch (error) {
-    console.error('Error al inicializar la lista de productos:', error);
-  }
 }

@@ -1,4 +1,4 @@
-import { enviarProducto } from './api.js';
+import { enviarProducto, listarProductos, eliminarProducto } from './api.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const productForm = document.querySelector('[data-formulario]');
