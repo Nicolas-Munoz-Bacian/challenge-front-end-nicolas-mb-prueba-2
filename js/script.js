@@ -5,6 +5,18 @@ const productsContainer = document.getElementById('products-container');
 const productForm = document.getElementById('product-form');
 const clearFormButton = document.getElementById('clearFormBtn');
 
+// Función para narrar texto con voz robótica femenina
+function narrar(texto) {
+    const utterance = new SpeechSynthesisUtterance(texto);
+    const voices = speechSynthesis.getVoices();
+    
+    // Filtrar las voces para encontrar una voz femenina
+    const femaleVoice = voices.find(voice => voice.name.includes('female')) || voices[0]; // Usar la primera voz si no se encuentra una femenina
+    utterance.voice = femaleVoice;
+
+    speechSynthesis.speak(utterance);
+}
+
 // Cargar productos al iniciar
 document.addEventListener('DOMContentLoaded', async () => {
     try {
